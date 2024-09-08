@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue'
-import { type MaybeRefOrGetter, toRef, watch, toValue } from 'vue'
+import { type MaybeRefOrGetter, toRef, watch } from 'vue'
 
 // First define the composable and export it.
 // You can use generics to define the type of the list.
