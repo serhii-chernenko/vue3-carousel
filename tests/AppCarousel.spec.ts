@@ -1,12 +1,8 @@
-import { describe, it, expect, beforeEach, vi, test } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { nextTick } from 'vue'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import AppCarousel from '../src/components/AppCarousel.vue'
 
-// you should write tests in order to verify the user's solution
-// these test will run to verify the user's solution
-
-let wrapper: VueWrapper
 const urls = [
     'https://picsum.photos/id/32/500/300?test=1',
     'https://picsum.photos/id/35/500/300?test=2',
@@ -16,21 +12,45 @@ const urls = [
 
 beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
-    wrapper = mount(AppCarousel, {
-        props: {
-            urls: urls,
-        },
-    })
+})
+
+afterEach(() => {
+    vi.useRealTimers()
 })
 
 describe('the Carousel component', () => {
-    test.todo(
-        'rotates through the images provided via the urls prop',
-        async () => {},
-    )
+    const currentImage = '[data-test="carouse-current-image"]'
 
-    test.todo(
-        'uses the duration prop to change the time between images',
-        async () => {},
-    )
+    it('rotates through the images provided via the urls prop', async () => {
+        const duration = 2000
+        const wrapper = mount(AppCarousel, {
+            props: {
+                urls: urls,
+            },
+        })
+
+        expect(wrapper.find(currentImage).attributes('src')).toBe(urls[0])
+
+        vi.advanceTimersByTime(duration)
+        await nextTick()
+        expect(wrapper.find(currentImage).attributes('src')).toBe(urls[1])
+
+        vi.advanceTimersByTime(duration)
+        await nextTick()
+        expect(wrapper.find(currentImage).attributes('src')).toBe(urls[2])
+    })
+
+    it('uses the duration prop to change the time between images', async () => {
+        const duration = 500
+        const wrapper = mount(AppCarousel, {
+            props: {
+                urls: urls,
+                duration,
+            },
+        })
+
+        vi.advanceTimersByTime(duration * 3)
+        await nextTick()
+        expect(wrapper.find(currentImage).attributes('src')).toBe(urls[3])
+    })
 })

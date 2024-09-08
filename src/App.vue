@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppCarousel from './components/AppCarousel.vue'
+import AppCarousel from '@/components/AppCarousel.vue'
 
 const urls = [
     'https://picsum.photos/id/32/500/300',

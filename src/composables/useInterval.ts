@@ -4,7 +4,10 @@ import { onUnmounted } from 'vue'
 // but it's a useful composable because it auto cleans up
 // the interval when the component is unmounted
 
-export const useInterval = (callback: () => void, milliseconds: number) => {
+export const useInterval = (
+    callback: () => void,
+    milliseconds: number = 2000,
+) => {
     const intervalId = setInterval(callback, milliseconds)
 
     onUnmounted(() => {
